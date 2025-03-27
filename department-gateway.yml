@@ -1,0 +1,35 @@
+server:
+  port: 9096
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://prachi:1234@localhost:1010/eureka/
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id : department-service
+        uri : lb://DEPARTMENT-SERVICE
+        predicates :   
+          - Path=/departments/**
+        filters :
+          - StripPrefix=0    
+      - id : user-service
+        uri : lb://DEPARTMENT-USER-SERVICE
+        predicates :   
+          - Path=/users/**
+        filters :
+          - StripPrefix=0 
+      - id : department-auth
+        uri : lb://DEPARTMENT-AUTH
+        predicates :   
+          - Path=/auth/**
+        filters :
+          - StripPrefix=0    
+  eureka:
+   client:
+     service-url:
+       defaultZone: "http://prachi:1234@localhost:1010/eureka"
